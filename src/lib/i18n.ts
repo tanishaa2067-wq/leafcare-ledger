@@ -54,6 +54,9 @@ const translations = {
     manageSettings: "Theme & preferences",
     manageSettingsTa: "தீம் மற்றும் விருப்பங்கள்",
     clearFilter: "Clear filter",
+    saveConfirmTitle: "Data Saved Successfully!",
+    saveConfirmMessage: "Your data has been saved. (வெற்றிகரமாக சேமிக்கப்பட்டது)",
+    ok: "OK",
   },
   ta: {
     appName: "LeafLedger",
