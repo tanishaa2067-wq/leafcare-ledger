@@ -14,14 +14,17 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
     <div
       className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-primary transition-opacity duration-400 ${fadeOut ? "opacity-0" : "opacity-100"}`}
     >
-      <div className="flex items-center gap-3 mb-4 animate-fade-in">
-        <Leaf className="w-14 h-14 text-primary-foreground" />
-        <h1 className="text-elder-2xl font-extrabold text-primary-foreground tracking-tight">
+      <div className="flex items-center gap-4 mb-6 animate-fade-in">
+        <Leaf className="w-16 h-16 text-primary-foreground" />
+        <h1 className="text-4xl md:text-5xl font-extrabold text-primary-foreground tracking-tight">
           LeafLedger
         </h1>
       </div>
-      <p className="text-primary-foreground/80 text-elder font-semibold animate-fade-in" style={{ animationDelay: "0.2s" }}>
+      <p className="text-primary-foreground/80 text-elder-lg font-semibold animate-fade-in" style={{ animationDelay: "0.2s" }}>
         தேயிலை தோட்ட நிதி மேலாளர்
+      </p>
+      <p className="text-primary-foreground/60 text-sm font-semibold animate-fade-in mt-2" style={{ animationDelay: "0.4s" }}>
+        Tea Plantation Finance Manager
       </p>
     </div>
   );

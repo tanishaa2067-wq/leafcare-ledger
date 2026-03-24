@@ -23,16 +23,16 @@ export default function RecordsModule({ lang, onBack }: Props) {
     : allDates;
 
   return (
-    <div className="p-5 max-w-2xl mx-auto animate-fade-in">
-      <div className="flex items-center gap-3 mb-5">
-        <Button variant="ghost" size="icon" onClick={onBack}>
-          <ArrowLeft className="w-5 h-5" />
+    <div className="px-6 py-6 md:px-10 max-w-3xl mx-auto animate-fade-in">
+      <div className="flex items-center gap-3 mb-6">
+        <Button variant="ghost" size="icon" onClick={onBack} className="rounded-xl">
+          <ArrowLeft className="w-6 h-6" />
         </Button>
-        <h2 className="text-elder-xl font-bold text-foreground flex-1">{t("records", lang)}</h2>
+        <h2 className="text-elder-2xl font-extrabold text-foreground flex-1">{t("records", lang)}</h2>
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2">
-              <CalendarIcon className="w-4 h-4" />
+            <Button variant="outline" size="lg" className="gap-2 rounded-xl text-elder">
+              <CalendarIcon className="w-5 h-5" />
               {filterDate ? format(filterDate, "dd MMM yyyy") : t("selectDate", lang)}
             </Button>
           </PopoverTrigger>
@@ -42,33 +42,35 @@ export default function RecordsModule({ lang, onBack }: Props) {
         </Popover>
       </div>
 
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-3 mb-6">
         <Button
           variant={tab === "business" ? "default" : "outline"}
+          size="lg"
           onClick={() => setTab("business")}
-          className={cn("flex-1 gap-2", tab === "business" && "bg-business text-primary-foreground hover:bg-business/90")}
+          className={cn("flex-1 gap-2 rounded-xl text-elder", tab === "business" && "bg-business text-primary-foreground hover:bg-business/90")}
         >
-          <Briefcase className="w-4 h-4" /> {t("businessRecords", lang)}
+          <Briefcase className="w-5 h-5" /> {t("businessRecords", lang)}
         </Button>
         <Button
           variant={tab === "personal" ? "default" : "outline"}
+          size="lg"
           onClick={() => setTab("personal")}
-          className={cn("flex-1 gap-2", tab === "personal" && "bg-personal text-primary-foreground hover:bg-personal/90")}
+          className={cn("flex-1 gap-2 rounded-xl text-elder", tab === "personal" && "bg-personal text-primary-foreground hover:bg-personal/90")}
         >
-          <Home className="w-4 h-4" /> {t("personalRecords", lang)}
+          <Home className="w-5 h-5" /> {t("personalRecords", lang)}
         </Button>
       </div>
 
       {filterDate && (
-        <Button variant="ghost" size="sm" className="mb-3 text-muted-foreground" onClick={() => setFilterDate(undefined)}>
-          Clear filter ✕
+        <Button variant="ghost" size="lg" className="mb-4 text-muted-foreground rounded-xl" onClick={() => setFilterDate(undefined)}>
+          {t("clearFilter", lang)} ✕
         </Button>
       )}
 
       {filteredDates.length === 0 ? (
-        <div className="text-center py-12 text-muted-foreground">{t("noRecords", lang)}</div>
+        <div className="text-center py-16 text-elder text-muted-foreground">{t("noRecords", lang)}</div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {filteredDates.map(dateKey => {
             const data = getDayDataByKey(dateKey);
             const displayDate = format(parse(dateKey, "yyyy-MM-dd", new Date()), "dd MMM yyyy");
@@ -77,35 +79,35 @@ export default function RecordsModule({ lang, onBack }: Props) {
               const total = data.business.workers.reduce((s, w) => s + w.kgLeaves * w.ratePerKg, 0);
               if (data.business.workers.length === 0 && data.business.income === 0) return null;
               return (
-                <div key={dateKey} className="bg-card rounded-xl p-4 shadow-card">
-                  <div className="flex justify-between items-center mb-2">
-                    <p className="font-bold text-sm text-foreground">{displayDate}</p>
-                    <span className="text-xs bg-business-light text-business px-2 py-0.5 rounded-full font-semibold">
+                <div key={dateKey} className="bg-card rounded-2xl p-6 shadow-card">
+                  <div className="flex justify-between items-center mb-3">
+                    <p className="font-extrabold text-elder text-foreground">{displayDate}</p>
+                    <span className="text-sm bg-business-light text-business px-3 py-1 rounded-full font-bold">
                       {t("income", lang)}: ₹{data.business.income}
                     </span>
                   </div>
                   {data.business.workers.map((w, i) => (
-                    <div key={w.id} className="flex justify-between text-sm py-1 border-b last:border-0">
+                    <div key={w.id} className="flex justify-between text-elder py-2 border-b last:border-0">
                       <span>{i + 1}. {w.name || "—"}</span>
-                      <span className="font-semibold text-business">{w.kgLeaves}kg × ₹{w.ratePerKg} = ₹{(w.kgLeaves * w.ratePerKg).toFixed(0)}</span>
+                      <span className="font-bold text-business">{w.kgLeaves}kg × ₹{w.ratePerKg} = ₹{(w.kgLeaves * w.ratePerKg).toFixed(0)}</span>
                     </div>
                   ))}
-                  <p className="text-right mt-2 text-xs font-bold text-muted-foreground">{t("totalPaid", lang)}: ₹{total.toFixed(0)}</p>
+                  <p className="text-right mt-3 text-elder font-extrabold text-muted-foreground">{t("totalPaid", lang)}: ₹{total.toFixed(0)}</p>
                 </div>
               );
             } else {
               const total = data.personal.reduce((s, e) => s + e.amount, 0);
               if (data.personal.length === 0) return null;
               return (
-                <div key={dateKey} className="bg-card rounded-xl p-4 shadow-card">
-                  <p className="font-bold text-sm text-foreground mb-2">{displayDate}</p>
+                <div key={dateKey} className="bg-card rounded-2xl p-6 shadow-card">
+                  <p className="font-extrabold text-elder text-foreground mb-3">{displayDate}</p>
                   {data.personal.map((e, i) => (
-                    <div key={e.id} className="flex justify-between text-sm py-1 border-b last:border-0">
+                    <div key={e.id} className="flex justify-between text-elder py-2 border-b last:border-0">
                       <span>{i + 1}. {e.purpose || "—"} {e.quantity && `(${e.quantity})`}</span>
-                      <span className="font-semibold text-personal">₹{e.amount}</span>
+                      <span className="font-bold text-personal">₹{e.amount}</span>
                     </div>
                   ))}
-                  <p className="text-right mt-2 text-xs font-bold text-muted-foreground">{t("totalSpentToday", lang)}: ₹{total.toFixed(0)}</p>
+                  <p className="text-right mt-3 text-elder font-extrabold text-muted-foreground">{t("totalSpentToday", lang)}: ₹{total.toFixed(0)}</p>
                 </div>
               );
             }
