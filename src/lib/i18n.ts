@@ -111,6 +111,9 @@ const translations = {
     manageSettings: "தீம் மற்றும் விருப்பங்கள்",
     manageSettingsTa: "Theme & preferences",
     clearFilter: "வடிகட்டியை அழி",
+    saveConfirmTitle: "தரவு வெற்றிகரமாக சேமிக்கப்பட்டது!",
+    saveConfirmMessage: "உங்கள் தரவு சேமிக்கப்பட்டது. (Data Saved Successfully)",
+    ok: "சரி",
   },
 };
 
