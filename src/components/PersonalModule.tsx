@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { ArrowLeft, CalendarIcon, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Plus, Trash2, Save } from "lucide-react";
 import { format } from "date-fns";
 import { Language, t } from "@/lib/i18n";
 import { getDayData, saveDayData, generateId, type PersonalEntry } from "@/lib/storage";
@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   lang: Language;
@@ -17,6 +18,7 @@ interface Props {
 export default function PersonalModule({ lang, onBack }: Props) {
   const [date, setDate] = useState<Date>(new Date());
   const [entries, setEntries] = useState<PersonalEntry[]>([]);
+  const { toast } = useToast();
 
   const load = useCallback(() => {
     const data = getDayData(date);
@@ -25,28 +27,28 @@ export default function PersonalModule({ lang, onBack }: Props) {
 
   useEffect(() => { load(); }, [load]);
 
-  const save = useCallback((e: PersonalEntry[]) => {
-    const data = getDayData(date);
-    data.personal = e;
-    saveDayData(date, data);
-  }, [date]);
-
   const addEntry = () => {
-    const updated = [...entries, { id: generateId(), purpose: "", quantity: "", amount: 0 }];
-    setEntries(updated);
-    save(updated);
+    setEntries(prev => [...prev, { id: generateId(), purpose: "", quantity: "", amount: 0 }]);
   };
 
   const updateEntry = (id: string, field: keyof PersonalEntry, value: string | number) => {
-    const updated = entries.map(e => e.id === id ? { ...e, [field]: value } : e);
-    setEntries(updated);
-    save(updated);
+    setEntries(prev => prev.map(e => e.id === id ? { ...e, [field]: value } : e));
   };
 
   const deleteEntry = (id: string) => {
-    const updated = entries.filter(e => e.id !== id);
-    setEntries(updated);
-    save(updated);
+    setEntries(prev => prev.filter(e => e.id !== id));
+  };
+
+  const handleSave = () => {
+    const hasEmpty = entries.some(e => !e.purpose.trim());
+    if (entries.length > 0 && hasEmpty) {
+      toast({ title: t("validationError", lang), variant: "destructive" });
+      return;
+    }
+    const data = getDayData(date);
+    data.personal = entries;
+    saveDayData(date, data);
+    toast({ title: t("savedSuccess", lang) });
   };
 
   const total = entries.reduce((sum, e) => sum + e.amount, 0);
@@ -57,16 +59,16 @@ export default function PersonalModule({ lang, onBack }: Props) {
   const topCategory = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1])[0];
 
   return (
-    <div className="p-5 max-w-2xl mx-auto animate-fade-in">
-      <div className="flex items-center gap-3 mb-5">
-        <Button variant="ghost" size="icon" onClick={onBack}>
-          <ArrowLeft className="w-5 h-5" />
+    <div className="px-6 py-6 md:px-10 max-w-3xl mx-auto animate-fade-in">
+      <div className="flex items-center gap-3 mb-6">
+        <Button variant="ghost" size="icon" onClick={onBack} className="rounded-xl">
+          <ArrowLeft className="w-6 h-6" />
         </Button>
-        <h2 className="text-elder-xl font-bold text-foreground flex-1">{t("personalSpending", lang)}</h2>
+        <h2 className="text-elder-2xl font-extrabold text-foreground flex-1">{t("personalSpending", lang)}</h2>
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2">
-              <CalendarIcon className="w-4 h-4" />
+            <Button variant="outline" size="lg" className="gap-2 rounded-xl text-elder">
+              <CalendarIcon className="w-5 h-5" />
               {format(date, "dd MMM yyyy")}
             </Button>
           </PopoverTrigger>
@@ -76,34 +78,35 @@ export default function PersonalModule({ lang, onBack }: Props) {
         </Popover>
       </div>
 
-      <div className="bg-card rounded-xl shadow-card overflow-hidden mb-4">
+      {/* Entries Table */}
+      <div className="bg-card rounded-2xl shadow-card overflow-hidden mb-6">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full">
             <thead>
               <tr className="border-b bg-muted/50">
-                <th className="p-3 text-left font-semibold">{t("serialNo", lang)}</th>
-                <th className="p-3 text-left font-semibold">{t("purpose", lang)}</th>
-                <th className="p-3 text-left font-semibold">{t("quantity", lang)}</th>
-                <th className="p-3 text-left font-semibold">{t("amount", lang)}</th>
-                <th className="p-3 w-10"></th>
+                <th className="p-4 text-left font-bold text-elder">{t("serialNo", lang)}</th>
+                <th className="p-4 text-left font-bold text-elder">{t("purpose", lang)}</th>
+                <th className="p-4 text-left font-bold text-elder">{t("quantity", lang)}</th>
+                <th className="p-4 text-left font-bold text-elder">{t("amount", lang)}</th>
+                <th className="p-4 w-12"></th>
               </tr>
             </thead>
             <tbody>
               {entries.map((e, i) => (
                 <tr key={e.id} className="border-b last:border-0">
-                  <td className="p-3 text-muted-foreground">{i + 1}</td>
-                  <td className="p-3">
-                    <Input value={e.purpose} onChange={(ev) => updateEntry(e.id, "purpose", ev.target.value)} className="h-8 text-sm" placeholder="Bakery, Tea..." />
+                  <td className="p-4 text-elder text-muted-foreground font-semibold">{i + 1}</td>
+                  <td className="p-4">
+                    <Input value={e.purpose} onChange={(ev) => updateEntry(e.id, "purpose", ev.target.value)} className="h-11 text-elder rounded-lg" placeholder="Bakery, Tea..." />
                   </td>
-                  <td className="p-3">
-                    <Input value={e.quantity} onChange={(ev) => updateEntry(e.id, "quantity", ev.target.value)} className="h-8 text-sm w-16" />
+                  <td className="p-4">
+                    <Input value={e.quantity} onChange={(ev) => updateEntry(e.id, "quantity", ev.target.value)} className="h-11 text-elder w-20 rounded-lg" />
                   </td>
-                  <td className="p-3">
-                    <Input type="number" value={e.amount || ""} onChange={(ev) => updateEntry(e.id, "amount", Number(ev.target.value))} className="h-8 text-sm w-24" />
+                  <td className="p-4">
+                    <Input type="number" value={e.amount || ""} onChange={(ev) => updateEntry(e.id, "amount", Number(ev.target.value))} className="h-11 text-elder w-28 rounded-lg" />
                   </td>
-                  <td className="p-3">
-                    <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => deleteEntry(e.id)}>
-                      <Trash2 className="w-4 h-4" />
+                  <td className="p-4">
+                    <Button variant="ghost" size="icon" className="h-9 w-9 text-destructive rounded-lg" onClick={() => deleteEntry(e.id)}>
+                      <Trash2 className="w-5 h-5" />
                     </Button>
                   </td>
                 </tr>
@@ -111,23 +114,35 @@ export default function PersonalModule({ lang, onBack }: Props) {
             </tbody>
           </table>
         </div>
-        <div className="p-3 border-t">
-          <Button variant="outline" size="sm" onClick={addEntry} className="gap-1.5 text-personal border-personal/30">
-            <Plus className="w-4 h-4" /> {t("addEntry", lang)}
+        <div className="p-4 border-t">
+          <Button variant="outline" size="lg" onClick={addEntry} className="gap-2 text-elder text-personal border-personal/30 rounded-xl">
+            <Plus className="w-5 h-5" /> {t("addEntry", lang)}
           </Button>
         </div>
       </div>
 
-      <div className="bg-card rounded-xl p-4 shadow-card mb-3">
-        <p className="text-xs text-muted-foreground font-semibold">{t("totalSpentToday", lang)}</p>
-        <p className="text-elder-lg font-extrabold text-personal">₹{total.toFixed(0)}</p>
+      {/* Total */}
+      <div className="bg-card rounded-2xl p-6 shadow-card mb-6">
+        <p className="text-sm text-muted-foreground font-bold mb-1">{t("totalSpentToday", lang)}</p>
+        <p className="text-elder-2xl font-extrabold text-personal">₹{total.toFixed(0)}</p>
       </div>
 
+      {/* Insight */}
       {topCategory && (
-        <div className="bg-personal-light rounded-xl p-3 text-center text-sm font-semibold text-personal">
+        <div className="bg-personal-light rounded-2xl p-4 text-center text-elder font-bold text-personal mb-6">
           {t("mostSpentOn", lang)}: {topCategory[0]} (₹{topCategory[1].toFixed(0)})
         </div>
       )}
+
+      {/* Save Button */}
+      <Button
+        size="lg"
+        onClick={handleSave}
+        className="w-full h-14 text-elder-xl font-extrabold rounded-2xl gap-3 bg-primary text-primary-foreground hover:bg-primary/90"
+      >
+        <Save className="w-6 h-6" />
+        {t("save", lang)}
+      </Button>
     </div>
   );
 }
