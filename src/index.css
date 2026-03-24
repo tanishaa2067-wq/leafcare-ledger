@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -46,9 +46,13 @@
     --settings: 220 10% 55%;
     --settings-light: 220 10% 95%;
 
-    --gradient-bg: linear-gradient(135deg, hsl(90 30% 96%), hsl(145 20% 95%), hsl(60 20% 96%));
-    --shadow-card: 0 4px 20px -4px hsl(150 10% 15% / 0.08);
-    --shadow-card-hover: 0 8px 30px -4px hsl(150 10% 15% / 0.14);
+    --success: 145 60% 42%;
+    --success-light: 145 50% 94%;
+
+    --gradient-bg: linear-gradient(160deg, hsl(90 30% 96%), hsl(145 20% 94%), hsl(60 25% 96%));
+    --shadow-card: 0 4px 24px -6px hsl(150 10% 15% / 0.08);
+    --shadow-card-hover: 0 12px 40px -8px hsl(150 10% 15% / 0.16);
+    --shadow-glow: 0 0 0 1px hsl(145 45% 35% / 0.08);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -98,9 +102,13 @@
     --settings: 220 10% 60%;
     --settings-light: 220 8% 20%;
 
-    --gradient-bg: linear-gradient(135deg, hsl(150 10% 8%), hsl(150 8% 10%), hsl(150 10% 8%));
-    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
-    --shadow-card-hover: 0 8px 30px -4px hsl(0 0% 0% / 0.5);
+    --success: 145 50% 48%;
+    --success-light: 145 30% 16%;
+
+    --gradient-bg: linear-gradient(160deg, hsl(150 10% 8%), hsl(150 8% 10%), hsl(150 10% 8%));
+    --shadow-card: 0 4px 24px -6px hsl(0 0% 0% / 0.35);
+    --shadow-card-hover: 0 12px 40px -8px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 0 1px hsl(145 45% 45% / 0.1);
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -119,7 +127,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans antialiased;
     background: var(--gradient-bg);
     min-height: 100vh;
   }
@@ -131,5 +139,8 @@
   }
   .shadow-card-hover {
     box-shadow: var(--shadow-card-hover);
+  }
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
   }
 }
