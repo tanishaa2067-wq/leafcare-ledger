@@ -65,6 +65,19 @@ export function getDayDataByKey(key: string): DayData {
   return all[key] || { business: { income: 0, workers: [] }, personal: [] };
 }
 
+export function getGlobalSummary() {
+  const all = getAll();
+  let totalIncome = 0;
+  let totalPaid = 0;
+  let totalSpent = 0;
+  for (const data of Object.values(all)) {
+    totalIncome += data.business.income;
+    totalPaid += data.business.workers.reduce((s, w) => s + w.kgLeaves * w.ratePerKg, 0);
+    totalSpent += data.personal.reduce((s, e) => s + e.amount, 0);
+  }
+  return { totalIncome, totalPaid, totalSpent, totalBalance: totalIncome - totalPaid - totalSpent };
+}
+
 export interface Settings {
   theme: "light" | "dark";
   language: "en" | "ta";
