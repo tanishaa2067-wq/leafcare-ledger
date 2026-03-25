@@ -34,11 +34,13 @@ export default function Index() {
   return (
     <div className="min-h-screen">
       <TopBar lang={settings.language} onToggleLang={toggleLang} />
-      {view === "dashboard" && <Dashboard lang={settings.language} onNavigate={setView} />}
-      {view === "business" && <BusinessModule lang={settings.language} onBack={() => setView("dashboard")} />}
-      {view === "personal" && <PersonalModule lang={settings.language} onBack={() => setView("dashboard")} />}
-      {view === "records" && <RecordsModule lang={settings.language} onBack={() => setView("dashboard")} />}
-      {view === "settings" && <SettingsModule lang={settings.language} theme={settings.theme} onBack={() => setView("dashboard")} onToggleTheme={toggleTheme} />}
+      <div key={view} className="animate-fade-in-up">
+        {view === "dashboard" && <Dashboard lang={settings.language} onNavigate={setView} />}
+        {view === "business" && <BusinessModule lang={settings.language} onBack={() => setView("dashboard")} />}
+        {view === "personal" && <PersonalModule lang={settings.language} onBack={() => setView("dashboard")} />}
+        {view === "records" && <RecordsModule lang={settings.language} onBack={() => setView("dashboard")} />}
+        {view === "settings" && <SettingsModule lang={settings.language} theme={settings.theme} onBack={() => setView("dashboard")} onToggleTheme={toggleTheme} />}
+      </div>
     </div>
   );
 }

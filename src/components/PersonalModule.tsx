@@ -163,7 +163,7 @@ export default function PersonalModule({ lang, onBack }: Props) {
       <Button
         size="lg"
         onClick={handleSave}
-        className="w-full h-16 text-elder-xl font-black rounded-3xl gap-3 bg-primary text-primary-foreground hover:bg-primary/90 shadow-card hover:shadow-card-hover transition-all duration-300"
+        className="w-full h-16 text-elder-xl font-black rounded-3xl gap-3 bg-primary text-primary-foreground hover:bg-primary/90 shadow-card hover:shadow-card-hover transition-all duration-300 active:scale-95"
       >
         <Save className="w-7 h-7" />
         {t("save", lang)}
@@ -171,20 +171,20 @@ export default function PersonalModule({ lang, onBack }: Props) {
 
       {/* Save Confirmation Dialog */}
       <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
-        <DialogContent className="rounded-3xl p-8 max-w-md">
-          <DialogHeader className="items-center text-center gap-4">
-            <div className="w-20 h-20 rounded-full bg-personal-light flex items-center justify-center mx-auto">
-              <CheckCircle2 className="w-10 h-10 text-personal" />
+        <DialogContent className="rounded-3xl p-10 max-w-md border-2 border-primary/20">
+          <DialogHeader className="items-center text-center gap-5">
+            <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto animate-scale-bounce">
+              <CheckCircle2 className="w-12 h-12 text-primary" />
             </div>
-            <DialogTitle className="text-elder-xl font-black">{t("saveConfirmTitle", lang)}</DialogTitle>
-            <DialogDescription className="text-elder text-muted-foreground">
+            <DialogTitle className="text-elder-2xl font-black animate-fade-in-up">{t("saveConfirmTitle", lang)}</DialogTitle>
+            <DialogDescription className="text-elder-lg text-muted-foreground animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
               {t("saveConfirmMessage", lang)}
             </DialogDescription>
           </DialogHeader>
           <Button
             size="lg"
             onClick={() => setShowConfirm(false)}
-            className="w-full h-14 text-elder-lg font-bold rounded-2xl mt-4 bg-primary text-primary-foreground"
+            className="w-full h-14 text-elder-lg font-bold rounded-2xl mt-6 bg-primary text-primary-foreground active:scale-95 transition-transform"
           >
             {t("ok", lang)}
           </Button>
