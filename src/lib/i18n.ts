@@ -57,6 +57,10 @@ const translations = {
     saveConfirmTitle: "Data Saved Successfully!",
     saveConfirmMessage: "Your data has been saved. (வெற்றிகரமாக சேமிக்கப்பட்டது)",
     ok: "OK",
+    totalBalance: "Total Balance (மொத்த இருப்பு)",
+    totalPaidSummary: "Total Paid (மொத்தம் செலுத்தியது)",
+    totalSpentSummary: "Total Spent (மொத்த செலவு)",
+    dailyTotal: "Daily Total",
   },
   ta: {
     appName: "LeafLedger",
@@ -114,6 +118,10 @@ const translations = {
     saveConfirmTitle: "தரவு வெற்றிகரமாக சேமிக்கப்பட்டது!",
     saveConfirmMessage: "உங்கள் தரவு சேமிக்கப்பட்டது. (Data Saved Successfully)",
     ok: "சரி",
+    totalBalance: "மொத்த இருப்பு (Total Balance)",
+    totalPaidSummary: "மொத்தம் செலுத்தியது (Total Paid)",
+    totalSpentSummary: "மொத்த செலவு (Total Spent)",
+    dailyTotal: "தினசரி மொத்தம்",
   },
 };
 
