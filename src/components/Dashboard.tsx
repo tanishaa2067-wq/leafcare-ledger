@@ -1,5 +1,6 @@
 import { Briefcase, Home, BarChart3, Settings, ChevronRight } from "lucide-react";
 import { Language, t } from "@/lib/i18n";
+import DashboardSummary from "@/components/DashboardSummary";
 
 interface DashboardProps {
   lang: Language;
@@ -60,6 +61,7 @@ const cards = [
 export default function Dashboard({ lang, onNavigate }: DashboardProps) {
   return (
     <div className="px-6 py-10 md:px-10 lg:px-16 max-w-5xl mx-auto">
+      <DashboardSummary lang={lang} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         {cards.map((card, i) => (
           <button
