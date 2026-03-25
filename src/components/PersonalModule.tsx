@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { ArrowLeft, CalendarIcon, Plus, Trash2, Save, ShoppingBag, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Plus, Trash2, Save, ShoppingBag, CheckCircle2, BarChart3 } from "lucide-react";
 import { format } from "date-fns";
 import { Language, t } from "@/lib/i18n";
 import { getDayData, saveDayData, generateId, type PersonalEntry } from "@/lib/storage";
