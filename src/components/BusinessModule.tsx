@@ -147,21 +147,26 @@ export default function BusinessModule({ lang, onBack }: Props) {
         </div>
       </div>
 
-      {/* Totals */}
-      <div className="grid grid-cols-2 gap-6 mb-8">
-        <div className="bg-card rounded-3xl p-8 shadow-card border border-border/50">
-          <div className="flex items-center gap-3 mb-3">
-            <Wallet className="w-6 h-6 text-business" />
-            <p className="text-sm text-muted-foreground font-bold">{t("totalPaid", lang)}</p>
-          </div>
-          <p className="text-3xl md:text-4xl font-black text-business">₹{totalPaid.toFixed(0)}</p>
+      {/* Summary Card */}
+      <div className="bg-gradient-to-br from-card via-card to-muted/30 rounded-3xl shadow-card mb-8 border-2 border-border/60 overflow-hidden">
+        <div className="px-8 py-5 border-b bg-muted/20">
+          <h3 className="text-elder-lg font-extrabold text-foreground">📋 {t("totalPaid", lang)} & {t("remainingBalance", lang)}</h3>
         </div>
-        <div className="bg-card rounded-3xl p-8 shadow-card border border-border/50">
-          <div className="flex items-center gap-3 mb-3">
-            <TrendingUp className="w-6 h-6 text-primary" />
-            <p className="text-sm text-muted-foreground font-bold">{t("remainingBalance", lang)}</p>
+        <div className="grid grid-cols-2 divide-x divide-border/40">
+          <div className="p-8 md:p-10 flex flex-col items-center text-center gap-3">
+            <div className="w-14 h-14 rounded-2xl bg-destructive/10 flex items-center justify-center">
+              <Wallet className="w-7 h-7 text-destructive" />
+            </div>
+            <p className="text-elder font-bold text-muted-foreground">{t("totalPaid", lang)}</p>
+            <p className="text-4xl md:text-5xl font-black text-destructive tracking-tight">₹{totalPaid.toFixed(0)}</p>
           </div>
-          <p className={`text-3xl md:text-4xl font-black ${remaining >= 0 ? "text-primary" : "text-destructive"}`}>₹{remaining.toFixed(0)}</p>
+          <div className="p-8 md:p-10 flex flex-col items-center text-center gap-3">
+            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${remaining >= 0 ? "bg-primary/10" : "bg-destructive/10"}`}>
+              <TrendingUp className={`w-7 h-7 ${remaining >= 0 ? "text-primary" : "text-destructive"}`} />
+            </div>
+            <p className="text-elder font-bold text-muted-foreground">{t("remainingBalance", lang)}</p>
+            <p className={`text-4xl md:text-5xl font-black tracking-tight ${remaining >= 0 ? "text-primary" : "text-destructive"}`}>₹{remaining.toFixed(0)}</p>
+          </div>
         </div>
       </div>
 
