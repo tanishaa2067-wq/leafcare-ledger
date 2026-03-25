@@ -129,13 +129,18 @@ export default function PersonalModule({ lang, onBack }: Props) {
         </div>
       </div>
 
-      {/* Total */}
-      <div className="bg-card rounded-3xl p-8 shadow-card mb-8 border border-border/50">
-        <div className="flex items-center gap-3 mb-3">
-          <ShoppingBag className="w-6 h-6 text-personal" />
-          <p className="text-sm text-muted-foreground font-bold">{t("totalSpentToday", lang)}</p>
+      {/* Summary Card */}
+      <div className="bg-gradient-to-br from-card via-card to-muted/30 rounded-3xl shadow-card mb-8 border-2 border-border/60 overflow-hidden">
+        <div className="px-8 py-5 border-b bg-muted/20">
+          <h3 className="text-elder-lg font-extrabold text-foreground">📋 {t("totalSpentToday", lang)}</h3>
         </div>
-        <p className="text-3xl md:text-4xl font-black text-personal">₹{total.toFixed(0)}</p>
+        <div className="p-8 md:p-10 flex flex-col items-center text-center gap-3">
+          <div className="w-14 h-14 rounded-2xl bg-destructive/10 flex items-center justify-center">
+            <ShoppingBag className="w-7 h-7 text-destructive" />
+          </div>
+          <p className="text-elder font-bold text-muted-foreground">{t("totalSpentToday", lang)}</p>
+          <p className="text-4xl md:text-5xl font-black text-destructive tracking-tight">₹{total.toFixed(0)}</p>
+        </div>
       </div>
 
       {/* Insight */}
