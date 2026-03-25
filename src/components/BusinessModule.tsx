@@ -172,8 +172,17 @@ export default function BusinessModule({ lang, onBack }: Props) {
 
       {/* Insight */}
       {mostPaid && mostPaid.name && (
-        <div className="bg-business-light rounded-3xl p-6 text-center text-elder-lg font-bold text-business mb-8 border border-business/10">
-          🏆 {t("mostPaidWorker", lang)}: <span className="font-black">{mostPaid.name}</span> (₹{(mostPaid.kgLeaves * mostPaid.ratePerKg).toFixed(0)})
+        <div className="bg-gradient-to-r from-business-light via-business-light to-card rounded-3xl p-8 mb-8 border-2 border-business/20 shadow-card overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-business/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-business/15 flex items-center justify-center shrink-0">
+              <Star className="w-7 h-7 text-business" fill="currentColor" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-business/70 mb-1">{t("mostPaidWorker", lang)}</p>
+              <p className="text-elder-xl font-black text-business">{mostPaid.name} <span className="text-elder-lg">— ₹{(mostPaid.kgLeaves * mostPaid.ratePerKg).toFixed(0)}</span></p>
+            </div>
+          </div>
         </div>
       )}
 

@@ -145,8 +145,17 @@ export default function PersonalModule({ lang, onBack }: Props) {
 
       {/* Insight */}
       {topCategory && (
-        <div className="bg-personal-light rounded-3xl p-6 text-center text-elder-lg font-bold text-personal mb-8 border border-personal/10">
-          📊 {t("mostSpentOn", lang)}: <span className="font-black">{topCategory[0]}</span> (₹{topCategory[1].toFixed(0)})
+        <div className="bg-gradient-to-r from-personal-light via-personal-light to-card rounded-3xl p-8 mb-8 border-2 border-personal/20 shadow-card overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-personal/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-personal/15 flex items-center justify-center shrink-0">
+              <BarChart3 className="w-7 h-7 text-personal" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-personal/70 mb-1">{t("mostSpentOn", lang)}</p>
+              <p className="text-elder-xl font-black text-personal">{topCategory[0]} <span className="text-elder-lg">— ₹{topCategory[1].toFixed(0)}</span></p>
+            </div>
+          </div>
         </div>
       )}
 
