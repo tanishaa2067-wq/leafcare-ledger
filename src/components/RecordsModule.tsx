@@ -90,20 +90,27 @@ export default function RecordsModule({ lang, onBack }: Props) {
                   <div className="flex justify-between items-center mb-5">
                     <p className="font-black text-elder-lg text-foreground">{displayDate}</p>
                     <span className="text-sm bg-business-light text-business px-4 py-2 rounded-2xl font-bold">
-                      {t("income", lang)}: ₹{data.business.income}
+                      {t("income", lang)}: ₹{data.business.income.toLocaleString("en-IN")}
                     </span>
                   </div>
                   <div className="space-y-1">
                     {data.business.workers.map((w, i) => (
                       <div key={w.id} className="flex justify-between text-elder py-3 px-4 rounded-xl hover:bg-muted/30 transition-colors">
                         <span className="font-semibold">{i + 1}. {w.name || "—"}</span>
-                        <span className="font-bold text-business">{w.kgLeaves}kg × ₹{w.ratePerKg} = <span className="font-black">₹{(w.kgLeaves * w.ratePerKg).toFixed(0)}</span></span>
+                        <span className="font-bold text-business">{w.kgLeaves}kg × ₹{w.ratePerKg} = <span className="font-black">₹{(w.kgLeaves * w.ratePerKg).toLocaleString("en-IN")}</span></span>
                       </div>
                     ))}
                   </div>
-                  <div className="mt-5 pt-4 border-t">
-                    <p className="text-right text-elder-lg font-black text-business">{t("totalPaid", lang)}: ₹{total.toFixed(0)}</p>
+                  <div className="mt-5 pt-4 border-t-2 border-business/15 flex justify-between items-center">
+                    <span className="text-elder font-bold text-muted-foreground">{t("totalPaid", lang)}</span>
+                    <p className="text-elder-xl font-black text-business">₹{total.toLocaleString("en-IN")}</p>
                   </div>
+                  {data.business.income > 0 && (
+                    <div className="mt-2 flex justify-between items-center">
+                      <span className="text-elder font-bold text-muted-foreground">{t("remainingBalance", lang)}</span>
+                      <p className={`text-elder-xl font-black ${data.business.income - total >= 0 ? "text-primary" : "text-destructive"}`}>₹{(data.business.income - total).toLocaleString("en-IN")}</p>
+                    </div>
+                  )}
                 </div>
               );
             } else {
@@ -116,12 +123,13 @@ export default function RecordsModule({ lang, onBack }: Props) {
                     {data.personal.map((e, i) => (
                       <div key={e.id} className="flex justify-between text-elder py-3 px-4 rounded-xl hover:bg-muted/30 transition-colors">
                         <span className="font-semibold">{i + 1}. {e.purpose || "—"} {e.quantity && <span className="text-muted-foreground">({e.quantity})</span>}</span>
-                        <span className="font-black text-personal">₹{e.amount}</span>
+                        <span className="font-black text-personal">₹{e.amount.toLocaleString("en-IN")}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="mt-5 pt-4 border-t">
-                    <p className="text-right text-elder-lg font-black text-personal">{t("totalSpentToday", lang)}: ₹{total.toFixed(0)}</p>
+                  <div className="mt-5 pt-4 border-t-2 border-personal/15 flex justify-between items-center">
+                    <span className="text-elder font-bold text-muted-foreground">{t("totalSpentToday", lang)}</span>
+                    <p className="text-elder-xl font-black text-personal">₹{total.toLocaleString("en-IN")}</p>
                   </div>
                 </div>
               );
