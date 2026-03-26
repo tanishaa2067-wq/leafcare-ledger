@@ -24,8 +24,21 @@ export interface DayData {
   personal: PersonalEntry[];
 }
 
-const STORAGE_KEY = "leafledger_data";
-const SETTINGS_KEY = "leafledger_settings";
+const STORAGE_KEY = "homebook_data";
+const SETTINGS_KEY = "homebook_settings";
+
+// Migration: move old leafledger data to new key
+function migrateOldData() {
+  const oldData = localStorage.getItem("leafledger_data");
+  const oldSettings = localStorage.getItem("leafledger_settings");
+  if (oldData && !localStorage.getItem(STORAGE_KEY)) {
+    localStorage.setItem(STORAGE_KEY, oldData);
+  }
+  if (oldSettings && !localStorage.getItem(SETTINGS_KEY)) {
+    localStorage.setItem(SETTINGS_KEY, oldSettings);
+  }
+}
+migrateOldData();
 
 function getAll(): Record<string, DayData> {
   try {

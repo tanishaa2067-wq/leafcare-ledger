@@ -2,9 +2,9 @@ export type Language = "en" | "ta";
 
 const translations = {
   en: {
-    appName: "LeafLedger",
-    subtitle: "Tea Plantation Finance Manager",
-    subtitleTa: "தேயிலை தோட்ட நிதி மேலாளர்",
+    appName: "HomeBook",
+    subtitle: "Home Finance Manager",
+    subtitleTa: "வீட்டு நிதி மேலாளர்",
     businessAccount: "Business Account",
     businessAccountTa: "வணிக கணக்கு",
     personalSpending: "Personal Spending",
@@ -63,9 +63,9 @@ const translations = {
     dailyTotal: "Daily Total",
   },
   ta: {
-    appName: "LeafLedger",
-    subtitle: "தேயிலை தோட்ட நிதி மேலாளர்",
-    subtitleTa: "Tea Plantation Finance Manager",
+    appName: "HomeBook",
+    subtitle: "வீட்டு நிதி மேலாளர்",
+    subtitleTa: "Home Finance Manager",
     businessAccount: "வணிக கணக்கு",
     businessAccountTa: "Business Account",
     personalSpending: "தனிப்பட்ட செலவு",
