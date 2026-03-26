@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Leaf } from "lucide-react";
+import homebookLogo from "@/assets/homebook-logo.png";
 
 export default function SplashScreen({ onDone }: { onDone: () => void }) {
   const [fadeOut, setFadeOut] = useState(false);
@@ -18,18 +18,18 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
       className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-primary transition-all duration-500 ${fadeOut ? "opacity-0 scale-105" : "opacity-100 scale-100"}`}
     >
       <div className="flex items-center gap-5 mb-8 animate-fade-in">
-        <div className="w-20 h-20 rounded-3xl bg-primary-foreground/15 flex items-center justify-center backdrop-blur-sm">
-          <Leaf className="w-12 h-12 text-primary-foreground" />
+        <div className="w-20 h-20 rounded-3xl bg-primary-foreground/15 flex items-center justify-center backdrop-blur-sm overflow-hidden">
+          <img src={homebookLogo} alt="HomeBook" width={56} height={56} className="object-contain brightness-0 invert" />
         </div>
         <h1 className="text-5xl md:text-6xl font-black text-primary-foreground tracking-tight">
-          LeafLedger
+          HomeBook
         </h1>
       </div>
       <p className="text-primary-foreground/80 text-elder-xl font-bold animate-fade-in" style={{ animationDelay: "0.2s" }}>
-        தேயிலை தோட்ட நிதி மேலாளர்
+        வீட்டு நிதி மேலாளர்
       </p>
       <p className="text-primary-foreground/50 text-sm font-semibold animate-fade-in mt-3" style={{ animationDelay: "0.4s" }}>
-        Tea Plantation Finance Manager
+        Home Finance Manager
       </p>
       {/* Loading dots */}
       <div className="flex gap-2 mt-10 animate-fade-in" style={{ animationDelay: "0.6s" }}>
