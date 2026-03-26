@@ -74,7 +74,7 @@ export default function RecordsModule({ lang, onBack }: Props) {
       {/* Records */}
       {filteredDates.length === 0 ? (
         <div className="text-center py-20 text-elder-lg text-muted-foreground bg-card rounded-3xl shadow-card">
-          {t("noRecords", lang)}
+          {t("noRecordsYet", lang)}
         </div>
       ) : (
         <div className="space-y-6">

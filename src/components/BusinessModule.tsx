@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { ArrowLeft, CalendarIcon, Plus, Trash2, Save, TrendingUp, Wallet, CheckCircle2, Star } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Plus, Trash2, Save, TrendingUp, Wallet, Star, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { Language, t } from "@/lib/i18n";
 import { getDayData, saveDayData, generateId, type WorkerEntry } from "@/lib/storage";
@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   lang: Language;
@@ -19,7 +19,8 @@ export default function BusinessModule({ lang, onBack }: Props) {
   const [date, setDate] = useState<Date>(new Date());
   const [income, setIncome] = useState(0);
   const [workers, setWorkers] = useState<WorkerEntry[]>([]);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const { toast } = useToast();
 
   const load = useCallback(() => {
     const data = getDayData(date);
@@ -41,13 +42,31 @@ export default function BusinessModule({ lang, onBack }: Props) {
     setWorkers(prev => prev.filter(w => w.id !== id));
   };
 
-  const handleSave = () => {
-    const hasEmptyWorker = workers.some(w => !w.name.trim());
-    if (workers.length > 0 && hasEmptyWorker) return;
+  const handleSave = async () => {
+    // Strict validation: all fields must be filled
+    if (workers.length > 0) {
+      const hasEmpty = workers.some(w => !w.name.trim() || w.kgLeaves <= 0 || w.ratePerKg <= 0);
+      if (hasEmpty) {
+        toast({
+          title: "⚠️ " + t("validationError", lang),
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
+    setSaving(true);
+    // Brief loading feel
+    await new Promise(r => setTimeout(r, 500));
+
     const data = getDayData(date);
     data.business = { income, workers };
     saveDayData(date, data);
-    setShowConfirm(true);
+    setSaving(false);
+
+    toast({
+      title: "✅ " + t("savedSuccess", lang),
+    });
   };
 
   const totalPaid = workers.reduce((sum, w) => sum + w.kgLeaves * w.ratePerKg, 0);
@@ -133,7 +152,7 @@ export default function BusinessModule({ lang, onBack }: Props) {
               {workers.length === 0 && (
                 <tr>
                   <td colSpan={6} className="p-10 text-center text-muted-foreground text-elder">
-                    Click "Add Worker" to get started
+                    {t("emptyState", lang)}
                   </td>
                 </tr>
               )}
@@ -172,7 +191,7 @@ export default function BusinessModule({ lang, onBack }: Props) {
 
       {/* Insight */}
       {mostPaid && mostPaid.name && (
-        <div className="bg-gradient-to-r from-business-light via-business-light to-card rounded-3xl p-8 mb-8 border-2 border-business/20 shadow-card overflow-hidden relative">
+        <div className="bg-gradient-to-r from-business-light via-business-light to-card rounded-3xl p-8 mb-4 border-2 border-business/20 shadow-card overflow-hidden relative">
           <div className="absolute top-0 right-0 w-24 h-24 bg-business/5 rounded-full -translate-y-1/2 translate-x-1/2" />
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-2xl bg-business/15 flex items-center justify-center shrink-0">
@@ -186,37 +205,23 @@ export default function BusinessModule({ lang, onBack }: Props) {
         </div>
       )}
 
+      {/* Efficient message insight */}
+      {workers.length > 0 && workers.every(w => w.name.trim()) && (
+        <div className="bg-primary/5 rounded-2xl p-5 mb-8 border border-primary/10 text-center">
+          <p className="text-elder font-bold text-primary">{t("efficientMessage", lang)}</p>
+        </div>
+      )}
+
       {/* Save Button */}
       <Button
         size="lg"
         onClick={handleSave}
-        className="w-full h-16 text-elder-xl font-black rounded-3xl gap-3 bg-primary text-primary-foreground hover:bg-primary/90 shadow-card hover:shadow-card-hover transition-all duration-300 active:scale-95"
+        disabled={saving}
+        className="w-full h-16 text-elder-xl font-black rounded-3xl gap-3 bg-primary text-primary-foreground hover:bg-primary/90 shadow-card hover:shadow-card-hover transition-all duration-300 active:scale-95 disabled:opacity-70"
       >
-        <Save className="w-7 h-7" />
-        {t("save", lang)}
+        {saving ? <Loader2 className="w-7 h-7 animate-spin" /> : <Save className="w-7 h-7" />}
+        {saving ? "..." : t("save", lang)}
       </Button>
-
-      {/* Save Confirmation Dialog */}
-      <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
-        <DialogContent className="rounded-3xl p-10 max-w-md border-2 border-primary/20">
-          <DialogHeader className="items-center text-center gap-5">
-            <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto animate-scale-bounce">
-              <CheckCircle2 className="w-12 h-12 text-primary" />
-            </div>
-            <DialogTitle className="text-elder-2xl font-black animate-fade-in-up">{t("saveConfirmTitle", lang)}</DialogTitle>
-            <DialogDescription className="text-elder-lg text-muted-foreground animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
-              {t("saveConfirmMessage", lang)}
-            </DialogDescription>
-          </DialogHeader>
-          <Button
-            size="lg"
-            onClick={() => setShowConfirm(false)}
-            className="w-full h-14 text-elder-lg font-bold rounded-2xl mt-6 bg-primary text-primary-foreground active:scale-95 transition-transform"
-          >
-            {t("ok", lang)}
-          </Button>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
