@@ -11,37 +11,37 @@ interface TopBarProps {
 
 export default function TopBar({ lang, onToggleLang, onLogout }: TopBarProps) {
   return (
-    <header className="flex items-center justify-between px-6 py-6 md:px-10 lg:px-16 border-b border-border/50 backdrop-blur-sm bg-card/60">
-      <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center shadow-card overflow-hidden">
-          <img src={homebookLogo} alt="HomeBook" width={40} height={40} className="object-contain" />
+    <header className="flex items-center justify-between px-4 py-4 sm:px-6 sm:py-5 md:px-10 lg:px-16 border-b border-border/50 backdrop-blur-sm bg-card/60 gap-2">
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-primary/10 flex items-center justify-center shadow-card overflow-hidden shrink-0">
+          <img src={homebookLogo} alt="HomeBook" className="w-7 h-7 sm:w-10 sm:h-10 object-contain" />
         </div>
-        <div>
-          <h1 className="text-elder-2xl font-black text-foreground leading-none tracking-tight">
+        <div className="min-w-0">
+          <h1 className="text-lg sm:text-elder-2xl font-black text-foreground leading-none tracking-tight truncate">
             HomeBook
           </h1>
-          <p className="text-sm text-muted-foreground font-semibold mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground font-semibold mt-0.5 sm:mt-1 truncate">
             {t("subtitle", lang)}
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 shrink-0">
         <Button
           variant="outline"
-          size="lg"
+          size="default"
           onClick={onToggleLang}
-          className="font-bold text-elder px-6 rounded-2xl border-2 hover:bg-primary/5 transition-colors duration-200"
+          className="font-bold text-sm sm:text-elder px-3 sm:px-6 rounded-xl sm:rounded-2xl border-2 hover:bg-primary/5 transition-colors duration-200 h-9 sm:h-11"
         >
-          {lang === "en" ? "தமிழ்" : "English"}
+          {lang === "en" ? "தமிழ்" : "EN"}
         </Button>
         <Button
           variant="ghost"
           size="icon"
           onClick={onLogout}
-          className="rounded-2xl h-12 w-12 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+          className="rounded-xl sm:rounded-2xl h-9 w-9 sm:h-12 sm:w-12 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
           title="Logout"
         >
-          <LogOut className="w-5 h-5" />
+          <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
         </Button>
       </div>
     </header>

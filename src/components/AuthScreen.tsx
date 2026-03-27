@@ -100,52 +100,52 @@ export default function AuthScreen({ onAuth }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center bg-background px-6">
+    <div className="fixed inset-0 z-40 flex items-center justify-center bg-background px-4 sm:px-6 overflow-y-auto py-8">
       <div className="w-full max-w-md animate-fade-in-up">
         {/* Logo */}
-        <div className="flex flex-col items-center mb-10">
-          <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center shadow-card mb-4 overflow-hidden">
-            <img src={homebookLogo} alt="HomeBook" width={52} height={52} className="object-contain" />
+        <div className="flex flex-col items-center mb-8 sm:mb-10">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-primary/10 flex items-center justify-center shadow-card mb-3 sm:mb-4 overflow-hidden">
+            <img src={homebookLogo} alt="HomeBook" className="w-10 h-10 sm:w-[52px] sm:h-[52px] object-contain" />
           </div>
-          <h1 className="text-elder-2xl font-black text-foreground">HomeBook</h1>
-          <p className="text-muted-foreground font-semibold mt-1">
+          <h1 className="text-2xl sm:text-elder-2xl font-black text-foreground">HomeBook</h1>
+          <p className="text-sm sm:text-base text-muted-foreground font-semibold mt-1 text-center">
             {mode === "login" ? "Welcome back (மீண்டும் வரவேற்கிறோம்)" : "Create your account (கணக்கை உருவாக்கவும்)"}
           </p>
         </div>
 
-        <div className="bg-card rounded-3xl shadow-card p-8 border border-border/50 space-y-5">
+        <div className="bg-card rounded-2xl sm:rounded-3xl shadow-card p-5 sm:p-8 border border-border/50 space-y-4 sm:space-y-5">
           <div>
-            <label className="text-sm font-bold text-muted-foreground mb-2 block">Username (பயனர் பெயர்)</label>
+            <label className="text-xs sm:text-sm font-bold text-muted-foreground mb-1.5 sm:mb-2 block">Username (பயனர் பெயர்)</label>
             <Input
               value={username}
               onChange={e => setUsername(e.target.value)}
               placeholder="Enter username"
-              className="h-12 rounded-2xl text-elder font-semibold"
+              className="h-11 sm:h-12 rounded-xl sm:rounded-2xl text-base sm:text-elder font-semibold"
             />
           </div>
 
           {mode === "signup" && (
             <div>
-              <label className="text-sm font-bold text-muted-foreground mb-2 block">Email (மின்னஞ்சல்)</label>
+              <label className="text-xs sm:text-sm font-bold text-muted-foreground mb-1.5 sm:mb-2 block">Email (மின்னஞ்சல்)</label>
               <Input
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="Enter email"
-                className="h-12 rounded-2xl text-elder font-semibold"
+                className="h-11 sm:h-12 rounded-xl sm:rounded-2xl text-base sm:text-elder font-semibold"
               />
             </div>
           )}
 
           <div>
-            <label className="text-sm font-bold text-muted-foreground mb-2 block">Password (கடவுச்சொல்)</label>
+            <label className="text-xs sm:text-sm font-bold text-muted-foreground mb-1.5 sm:mb-2 block">Password (கடவுச்சொல்)</label>
             <div className="relative">
               <Input
                 type={showPw ? "text" : "password"}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Enter password"
-                className="h-12 rounded-2xl text-elder font-semibold pr-12"
+                className="h-11 sm:h-12 rounded-xl sm:rounded-2xl text-base sm:text-elder font-semibold pr-12"
               />
               <button
                 type="button"
@@ -159,13 +159,13 @@ export default function AuthScreen({ onAuth }: Props) {
 
           {mode === "signup" && (
             <div>
-              <label className="text-sm font-bold text-muted-foreground mb-2 block">Confirm Password (கடவுச்சொல் உறுதிப்படுத்தவும்)</label>
+              <label className="text-xs sm:text-sm font-bold text-muted-foreground mb-1.5 sm:mb-2 block">Confirm Password (கடவுச்சொல் உறுதிப்படுத்தவும்)</label>
               <Input
                 type={showPw ? "text" : "password"}
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
                 placeholder="Re-enter password"
-                className="h-12 rounded-2xl text-elder font-semibold"
+                className="h-11 sm:h-12 rounded-xl sm:rounded-2xl text-base sm:text-elder font-semibold"
               />
             </div>
           )}
@@ -178,7 +178,7 @@ export default function AuthScreen({ onAuth }: Props) {
                 onChange={e => setRemember(e.target.checked)}
                 className="w-5 h-5 rounded accent-primary"
               />
-              <span className="text-sm font-semibold text-muted-foreground">Remember me (என்னை நினைவில் கொள்)</span>
+              <span className="text-xs sm:text-sm font-semibold text-muted-foreground">Remember me (என்னை நினைவில் கொள்)</span>
             </label>
           )}
 
@@ -186,12 +186,12 @@ export default function AuthScreen({ onAuth }: Props) {
             size="lg"
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full rounded-2xl font-black text-elder h-14"
+            className="w-full rounded-xl sm:rounded-2xl font-black text-base sm:text-elder h-12 sm:h-14"
           >
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : mode === "login" ? "Login (உள்நுழைய)" : "Sign Up (பதிவு செய்ய)"}
           </Button>
 
-          <p className="text-center text-sm font-semibold text-muted-foreground">
+          <p className="text-center text-xs sm:text-sm font-semibold text-muted-foreground">
             {mode === "login" ? "Don't have an account? " : "Already have an account? "}
             <button
               onClick={() => { setMode(mode === "login" ? "signup" : "login"); setPassword(""); setConfirmPassword(""); }}

@@ -60,31 +60,28 @@ const cards = [
 
 export default function Dashboard({ lang, onNavigate }: DashboardProps) {
   return (
-    <div className="px-6 py-10 md:px-10 lg:px-16 max-w-5xl mx-auto">
+    <div className="px-4 py-6 sm:px-6 sm:py-10 md:px-10 lg:px-16 max-w-5xl mx-auto">
       <DashboardSummary lang={lang} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-3 sm:gap-6 md:gap-8">
         {cards.map((card, i) => (
           <button
             key={card.id}
             onClick={() => onNavigate(card.id)}
-            className={`group relative flex flex-col items-center justify-center gap-6 p-12 md:p-14 rounded-[1.75rem] border-2 ${card.borderColor} ${card.hoverBorder} bg-card shadow-[0_6px_28px_-6px_hsl(var(--foreground)/0.1)] transition-all duration-400 ease-out ${card.glowColor} hover:scale-[1.04] hover:-translate-y-2 active:scale-[0.97] animate-fade-in overflow-hidden`}
+            className={`group relative flex flex-col items-center justify-center gap-3 sm:gap-6 p-6 sm:p-10 md:p-14 rounded-2xl sm:rounded-[1.75rem] border-2 ${card.borderColor} ${card.hoverBorder} bg-card shadow-[0_6px_28px_-6px_hsl(var(--foreground)/0.1)] transition-all duration-400 ease-out ${card.glowColor} hover:scale-[1.02] sm:hover:scale-[1.04] hover:-translate-y-1 sm:hover:-translate-y-2 active:scale-[0.97] animate-fade-in overflow-hidden`}
             style={{ animationDelay: `${i * 0.1}s` }}
           >
-            {/* Always-visible subtle gradient */}
             <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-60 group-hover:opacity-100 transition-opacity duration-400`} />
-
-            {/* Secondary radial glow on hover */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.04),transparent_70%)]" />
 
-            <div className={`relative w-24 h-24 md:w-28 md:h-28 rounded-[1.25rem] flex items-center justify-center ${card.colorClass} transition-all duration-400 group-hover:scale-110 group-hover:shadow-lg`}>
-              <card.icon className="w-12 h-12 md:w-14 md:h-14" strokeWidth={1.6} />
+            <div className={`relative w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-xl sm:rounded-[1.25rem] flex items-center justify-center ${card.colorClass} transition-all duration-400 group-hover:scale-110 group-hover:shadow-lg`}>
+              <card.icon className="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12" strokeWidth={1.6} />
             </div>
-            <div className="relative text-center space-y-2">
-              <p className="font-black text-elder-xl md:text-elder-2xl text-foreground tracking-tight">{t(card.titleKey, lang)}</p>
-              <p className="text-base md:text-lg text-muted-foreground font-bold">({t(card.tamilKey, lang)})</p>
-              <p className="text-sm md:text-base text-muted-foreground mt-3 flex items-center justify-center gap-1.5 font-semibold">
+            <div className="relative text-center space-y-0.5 sm:space-y-2">
+              <p className="font-black text-sm sm:text-elder-xl md:text-elder-2xl text-foreground tracking-tight leading-tight">{t(card.titleKey, lang)}</p>
+              <p className="text-xs sm:text-base md:text-lg text-muted-foreground font-bold hidden sm:block">({t(card.tamilKey, lang)})</p>
+              <p className="text-xs sm:text-sm md:text-base text-muted-foreground mt-1 sm:mt-3 flex items-center justify-center gap-1 font-semibold">
                 {t(card.subtitleKey, lang)}
-                <ChevronRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-400" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-400" />
               </p>
             </div>
           </button>
